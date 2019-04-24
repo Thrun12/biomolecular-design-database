@@ -134,7 +134,7 @@ function applyFilters(reqQuery, projects) {
   return projects;
 }
 
-router.get('/', (req, res) => { //get all projects 
+router.get('/', (req, res) => { //get all projects
   const search = req.query.search;
   const sortby = req.query.sortby;
   const from = req.query.from;
@@ -246,7 +246,7 @@ router.put('/project/associatedField/', (req, res) => {
   }
 });
 
-//QUALITY OF DOCUMENTATION ALGORITHM 
+//QUALITY OF DOCUMENTATION ALGORITHM
 
 //IMAGE FILES AND PROJECT ABSTRACT
 function star1(projectData, callback) {
@@ -485,34 +485,50 @@ router.post('/project/', (req, res) => {
       if (err) {
         res.status(401).json({error: 'Failed to authenticate'})
       } else {
-        Projects.forge({
-          user_id: req.body.user_id,
-          name: _name,
-          version: _version,
-          header_image_link: _headerImageLinkOnS3,
-          hero_image: _heroImageLinkOnS3,
-          publication: _publication,
-          user_rights: _userRights,
-          project_abstract: _projectAbstract,
-          published: _published,
-          views: 0,
-          likes: 0,
-          contact_linkedin: _contactLinkedin,
-          contact_email: _contactEmail,
-          contact_facebook: _contactFacebook,
-          contact_homepage: _contactHomepage,
-          quality_of_documentation: 0,
-          keywords: _keywords,
-          authors: _authors,
-          associated_project: _associatedProject,
-          deleted: false
-        }, {hasTimestamps: true}).save() //save returns 'promise' so we can use then/catch
+        // make project start
+
+        var requiredAuth = true;
+        if (_name == null) requiredAuth = false;
+        if (_projectAbstract == null) requiredAuth = false;
+        if (_authors == null) requiredAuth = false;
+        if (_keywords == null) requiredAuth = false;
+        if (_userRights == null) requiredAuth = false;
+
+        if (requiredAuth) {
+          Projects.forge({
+            user_id: req.body.user_id,
+            name: _name,
+            version: _version,
+            header_image_link: _headerImageLinkOnS3,
+            hero_image: _heroImageLinkOnS3,
+            publication: _publication,
+            user_rights: _userRights,
+            project_abstract: _projectAbstract,
+            published: _published,
+            views: 0,
+            likes: 0,
+            contact_linkedin: _contactLinkedin,
+            contact_email: _contactEmail,
+            contact_facebook: _contactFacebook,
+            contact_homepage: _contactHomepage,
+            quality_of_documentation: 0,
+            keywords: _keywords,
+            authors: _authors,
+            associated_project: _associatedProject,
+            deleted: false
+          }, {hasTimestamps: true})
+          .save() //save returns 'promise' so we can use then/catch
           .then(project => {
             res.status(200).json({success: true, project_id: project.toJSON().id});
           })
           .catch(err => {
             res.status(500).json({success: false, data: {message: err.message}})
           })
+        } else {
+          res.status(402).json({error: 'One or more required fields are empty'})
+        }
+
+        // make project end
       }
     });
   }
