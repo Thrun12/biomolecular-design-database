@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../../public/Assets/logo.svg';
 
 class Footer extends React.Component {
 	render (){
@@ -8,11 +7,15 @@ class Footer extends React.Component {
 				<hr/>
 				<div className="row">
 					<div className="col-xs-12 paddingBottom">
-						<img src={logo} width="180" alt="Autodesk Logo"/>
-						<p> &copy; 2017 </p>
+						<p>
+							&copy; 2017 &middot;
+							<a href="https://international.au.dk/about/profile/privacy-policy/">Privacy policy</a>
+							&middot;
+							<a href="https://international.au.dk/about/profile/cookies-policy/">Cookie policy</a>
+						</p>
 					</div>
-				</div>		
-				
+				</div>
+
 			</div>
 		);
 	}
