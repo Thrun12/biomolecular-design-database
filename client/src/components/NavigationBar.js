@@ -51,7 +51,7 @@ class NavigationBar extends React.Component{
 		const { isAuthenticated } = this.props.auth;
 		const logoutDiv = (
 			<div className="container-logout" onClick={this.toggleLogout}>
-				<div className="logout-alert"> 
+				<div className="logout-alert">
 					<a href="# " style={{color: '#343950'}} onClick={this.logout.bind(this)} > <i className="fa fa-sign-out" aria-hidden="true"></i> Logout </a>
 				</div>
 			</div>
@@ -90,17 +90,17 @@ class NavigationBar extends React.Component{
 				 	<div className=" nav-links">
 					 	{ isAuthenticated ? userLinks : guestLinks }
 				 	</div>
-				 	{isAuthenticated ? 
+				 	{isAuthenticated ?
 				 		<div className="nav-username" onClick={this.toggleLogout}><p>{this.props.auth.user.firstName} {this.props.auth.user.lastName}  <span className="caret"></span></p></div>
 				 		: ''
 				 	}
 					<form onSubmit={this.props.searchSubmnit}>
-						<div className="searchBar-layout"><input type="text" onChange={this.props.searchValUpdate} onSubmit={this.props.searchSubmnit} name="search"   />
+						<div className="searchBar-layout"><input type="text" onChange={this.props.searchValUpdate} onSubmit={this.props.searchSubmnit} placeholder="Search..." name="search"   />
 							<img src={search} alt="search"/>
 						</div>
 				 	</form>
 				 	<hr width="95%" />
-				 	
+
 				</div>
 					{this.state.showLogout ? logoutDiv : '' }
 				{this.state.openWrite ? <UploadNew closeWrite={this.closeWrite} closeBool={true} /> : ''}
